@@ -1,51 +1,100 @@
-let gameBoard = [
-  [null, null, null],
-  [null, null, null],
-  [null, null, null],
-];
+const game = {
+    board: [
+      [null, null, null],
+      [null, null, null],
+      [null, null, null]
+    ],
+    running: true,
+    round: 1,
+    winner: undefined,
 
-// let randomMove = () => {
-//     let y = Math.floor(Math.random() * 3);
-//     let x = Math.floor(Math.random() * 3);
-//     return (y, x);
-// }
-
-const displayBoard = () => {
-  for (i in gameBoard) {
-    console.log(gameBoard[i]);
-  }
-  console.log("");
+    display: function() {
+      for (i in this.board) {
+        console.log(this.board[i]);
+      }
+      console.log("");
+    }
 };
 
-const check = () => {
-    let g = gameBoard;
-    for (i in gameBoard) {
-      // Horizontal check
-      if (g[i][0] == 1 && g[i][1] == 1 && g[i][2] == 1) {
-        console.log("Player 1 wins!");
-      } else {
-        if (g[i][0] == 0 && g[i][1] == 0 && g[i][2] == 0) {
-          console.log("Player 2 wins!");
-        }
-      }
+let randomXY = () => { 
+    y = Math.floor(Math.random() * 3); 
+    x = Math.floor(Math.random() * 3);
+    return y,x;
+}
 
-      // Vertical check
-      if (g[0][i] == 1 && g[1][i] == 1 && g[2][i] == 1) {
-        console.log("Player 1 wins!");
-      } else {
-        if (g[0][i] == 0 && g[1][i] == 0 && g[2][i] == 0) {
-          console.log("Player 2 wins!");
+let randomMove = (player) => {
+    // let checkTaken = () => {
+    //     y = Math.floor(Math.random() * 3);
+    //     x = Math.floor(Math.random() * 3);
+
+    //     if (game.board[y][x] == null) {
+    //         return y, x;
+    //     }
+    // }
+
+    // checkTaken();
+    // console.log(x,y);
+    // game.board[y][x] = player;
+
+    randomXY(); 
+    
+    if (game.board[y][x] == null) {
+        return game.board[y][x] = player;
+        // console.log(y, x);
+    } else {
+        if (game.running == true) {
+            randomMove(player);
         }
-      }
     }
 }
 
-const Player = (number) => {
-    const move = (y, x) => {
-        if (gameBoard[y][x] == null) {
-            gameBoard[y][x] = number;
-        } else { console.log(`Player ${number}: Choose a better spot, dummy!`) }
+// randomMove(1);
+
+const check = (player) => {
+    let g = game.board;
+    game.running = false;
+
+    // Diagonal check
+    if (  
+        (g[0][0] == player && g[1][1] == player && g[2][2] == player) ||
+        (g[0][1] == player && g[1][1] == player && g[0][2] == player)
+    ) {
+        game.winner = player;
+        return console.log(`Player ${player} wins!`);
     }
+
+    // Horizontal check
+    for (row in g) {
+        if (g[row][0] == player && g[row][1] == player && g[row][2] == player) {
+            game.winner = player;
+            return console.log(`Player ${player} wins!`);
+        }
+    }
+
+    // Vertical check
+    for (col in g) {
+      if (g[0][col] == player && g[1][col] == player && g[2][col] == player) {
+        game.winner = player;
+        return console.log(`Player ${player} wins!`);
+      }
+    }
+
+    // Tie check
+    let checker = (arr) => arr.every(v => v != null);
+    if (checker(game.board) == true) {
+        return console.log(`It's a tie!`);
+    }
+
+}
+
+const Player = (player) => {
+    const move = (y, x) => {
+        if (game.board[y][x] == null) {
+            game.board[y][x] = player;
+        // } else {
+        //     console.log(`Player ${player}: Choose a better spot, dummy!`);
+        }
+    };
 
     return { move };
 };
@@ -53,23 +102,81 @@ const Player = (number) => {
 const Player1 = Player(1);
 const Player2 = Player(0);
 
-// Round 1
-console.log("ROUND 1");
-Player1.move(0, 0);
-Player2.move(1, 1);
-displayBoard();
-check();
+let test_1 = () => {
+    while (game.running = true) {
+      console.log(`ROUND ${game.round}`);
 
-// Round 2
-console.log("ROUND 2");
-Player1.move(1, 0);
-Player2.move(1, 2);
-displayBoard();
-check();
+      // Player 1 assigns value to board coordinates
+      randomMove(1);
 
-// Round 3
-console.log("ROUND 3");
-Player1.move(2, 2);
-Player2.move(1, 2);
-displayBoard();
-check();
+      // Display results
+      game.display();
+
+      // Check for winner
+      check(1);
+
+      if (game.running == true) {
+        // Player 2 assigns value to board coordinates
+        randomMove(0);
+        // Display results
+        game.display();
+        // Check for winner
+        check(2);
+      }
+
+      if (game.winner == undefined) {
+        game.round++;
+      }
+    }
+}
+
+let test_2 = () => {
+    // Round 1
+    console.log("ROUND 1");
+    // Player1.move(0, 0);
+    //   Player2.move(0, 1);
+    randomMove(1);
+    randomMove(0);
+    game.display();
+    check();
+
+    // Round 2
+    console.log("ROUND 2");
+    // Player1.move(1, 1);
+    //   Player2.move(1, 2);
+    randomMove(1);
+    randomMove(0);
+    game.display();
+    check();
+
+    // Round 3
+    console.log("ROUND 3");
+    // Player1.move(2, 2);
+    // Player2.move(0, 2);
+    randomMove(1);
+    randomMove(0);
+    game.display();
+    check();
+}
+
+// test_1();
+// test_2();
+
+const tieCheck = () => {
+    let g = game.board;
+    g[0][0] = 1;
+    g[0][1] = 0;
+    g[0][2] = 1;
+    g[1][0] = 0;
+    g[1][1] = 0;
+    g[1][2] = 1;
+    g[2][0] = 1;
+    g[2][1] = 1;
+    g[2][2] = 0;
+
+    game.display();
+    check(1);
+}
+
+tieCheck();
+
