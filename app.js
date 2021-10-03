@@ -57,17 +57,17 @@ const check = (player) => {
     // Diagonal check
     if (  
         (g[0][0] == player && g[1][1] == player && g[2][2] == player) ||
-        (g[0][1] == player && g[1][1] == player && g[0][2] == player)
+        (g[0][2] == player && g[1][1] == player && g[2][0] == player)
     ) {
         game.winner = player;
-        return console.log(`Player ${player} wins!`);
+        return console.log(`Player ${player} wins!\n`);
     }
 
     // Horizontal check
     for (row in g) {
         if (g[row][0] == player && g[row][1] == player && g[row][2] == player) {
             game.winner = player;
-            return console.log(`Player ${player} wins!`);
+            return console.log(`Player ${player} wins!\n`);
         }
     }
 
@@ -75,14 +75,14 @@ const check = (player) => {
     for (col in g) {
       if (g[0][col] == player && g[1][col] == player && g[2][col] == player) {
         game.winner = player;
-        return console.log(`Player ${player} wins!`);
+        return console.log(`Player ${player} wins!\n`);
       }
     }
 
     // Tie check
     let checker = (arr) => arr.every(v => v != null);
     if (checker(game.board) == true) {
-        return console.log(`It's a tie!`);
+        return console.log(`It's a tie!\n`);
     }
 
 }
@@ -162,21 +162,55 @@ let test_2 = () => {
 // test_1();
 // test_2();
 
-const tieCheck = () => {
-    let g = game.board;
-    g[0][0] = 1;
-    g[0][1] = 0;
-    g[0][2] = 1;
-    g[1][0] = 0;
-    g[1][1] = 0;
-    g[1][2] = 1;
-    g[2][0] = 1;
-    g[2][1] = 1;
-    g[2][2] = 0;
+const testCheck = {
 
-    game.display();
-    check(1);
+    horizontal: function() {
+        game.board = [
+            [1,0,1],
+            [0,null,1],
+            [1,1,1]            
+        ]
+        console.log(`HORIZONTAL CHECK:`)
+        game.display();
+        check(1);
+    },
+
+    vertical: function() {
+        game.board = [
+            [1,0,1],
+            [1,null,1],
+            [1,1,0]            
+        ]
+        console.log(`VERTICAL CHECK:`)
+        game.display();
+        check(1);
+    },
+
+    diagonal: function() {
+        game.board = [
+            [1,0,1],
+            [0,1,1],
+            [1,0,0]            
+        ]
+        console.log(`DIAGONAL CHECK:`)
+        game.display();
+        check(1);
+    },
+
+    tie: function() {
+        game.board = [
+            [1,0,1],
+            [0,0,1],
+            [1,1,0]
+        ]
+        console.log(`TIE CHECK:`)
+        game.display();
+        check(1);
+    }
 }
 
-tieCheck();
+testCheck.horizontal();
+testCheck.vertical();
+testCheck.diagonal();
+testCheck.tie();
 
