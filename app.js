@@ -12,35 +12,21 @@ const game = {
       for (i in this.board) {
         console.log(this.board[i]);
       }
-      console.log("");
+      console.log('');
     }
 };
 
-let randomXY = () => { 
-    y = Math.floor(Math.random() * 3); 
-    x = Math.floor(Math.random() * 3);
-    return y,x;
-}
-
 let randomMove = (player) => {
-    // let checkTaken = () => {
-    //     y = Math.floor(Math.random() * 3);
-    //     x = Math.floor(Math.random() * 3);
-
-    //     if (game.board[y][x] == null) {
-    //         return y, x;
-    //     }
-    // }
-
-    // checkTaken();
-    // console.log(x,y);
-    // game.board[y][x] = player;
+    let randomXY = () => {
+      y = Math.floor(Math.random() * 3);
+      x = Math.floor(Math.random() * 3);
+      return y, x;
+    };
 
     randomXY(); 
     
     if (game.board[y][x] == null) {
         return game.board[y][x] = player;
-        // console.log(y, x);
     } else {
         if (game.running == true) {
             randomMove(player);
@@ -48,10 +34,10 @@ let randomMove = (player) => {
     }
 }
 
-// randomMove(1);
-
 const check = (player) => {
     let g = game.board;
+
+    // Pause game
     game.running = false;
 
     // Diagonal check
@@ -80,11 +66,13 @@ const check = (player) => {
     }
 
     // Tie check
-    let checker = (arr) => arr.every(v => v != null);
-    if (checker(game.board) == true) {
+    let tie = (arr) => arr.every(v => v != null);
+    if (tie(g[0]) == true && tie(g[1]) == true && tie(g[2]) == true) {
         return console.log(`It's a tie!\n`);
     }
 
+    // Resume game
+    game.running = true;
 }
 
 const Player = (player) => {
@@ -92,7 +80,7 @@ const Player = (player) => {
         if (game.board[y][x] == null) {
             game.board[y][x] = player;
         // } else {
-        //     console.log(`Player ${player}: Choose a better spot, dummy!`);
+            // console.log(`Player ${player}: Choose a better spot, dummy!`);
         }
     };
 
@@ -102,8 +90,8 @@ const Player = (player) => {
 const Player1 = Player(1);
 const Player2 = Player(0);
 
-let test_1 = () => {
-    while (game.running = true) {
+let test_ai = () => {
+    while (game.running == true) {
       console.log(`ROUND ${game.round}`);
 
       // Player 1 assigns value to board coordinates
@@ -121,7 +109,7 @@ let test_1 = () => {
         // Display results
         game.display();
         // Check for winner
-        check(2);
+        check(0);
       }
 
       if (game.winner == undefined) {
@@ -159,11 +147,7 @@ let test_2 = () => {
     check();
 }
 
-// test_1();
-// test_2();
-
 const testCheck = {
-
     horizontal: function() {
         game.board = [
             [1,0,1],
@@ -209,8 +193,8 @@ const testCheck = {
     }
 }
 
-testCheck.horizontal();
-testCheck.vertical();
-testCheck.diagonal();
-testCheck.tie();
-
+// testCheck.horizontal();
+// testCheck.vertical();
+// testCheck.diagonal();
+// testCheck.tie();
+test_ai();
