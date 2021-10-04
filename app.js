@@ -1,82 +1,104 @@
 const game = {
-    board: [
-      [null, null, null],
-      [null, null, null],
-      [null, null, null]
-    ],
-    running: true,
-    round: 1,
-    winner: undefined,
+  board: [
+    [null, null, null],
+    [null, null, null],
+    [null, null, null],
+  ],
+  running: true,
+  round: 1,
+  winner: undefined,
 
-    display: function() {
-      for (i in this.board) {
-        console.log(this.board[i]);
-      }
-      console.log('');
-    },
-
-    draw: function() {
-        for (y in this.board) {
-            for (x in this.board[y]) {
-                if (this.board[y][x] == 1) {
-                    document.getElementById(`${y}-${x}`).classList.add("x");
-                } else if (this.board[y][x] == 2) {
-                    document.getElementById(`${y}-${x}`).classList.add("o");
-                }
-            }
-        }
-    },
-
-    check: function(player) {
-        let g = this.board;
-        let message = "";
-
-        // Pause game
-        this.running = false;
-
-        // Diagonal check
-        if (  
-            (g[0][0] == player && g[1][1] == player && g[2][2] == player) ||
-            (g[0][2] == player && g[1][1] == player && g[2][0] == player)
-        ) {
-            this.winner = player;
-            message = `Player ${player} wins!\n`;
-            document.getElementById("banner").innerHTML = message;
-            return console.log(message);
-        }
-
-        // Horizontal check
-        for (row in g) {
-            if (g[row][0] == player && g[row][1] == player && g[row][2] == player) {
-                this.winner = player;
-                message = `Player ${player} wins!\n`;
-                document.getElementById("banner").innerHTML = message;
-                return console.log(message);
-            }
-        }
-
-        // Vertical check
-        for (col in g) {
-        if (g[0][col] == player && g[1][col] == player && g[2][col] == player) {
-            this.winner = player;
-                message = `Player ${player} wins!\n`;
-                document.getElementById("banner").innerHTML = message;
-                return console.log(message);
-            }
-        }
-
-        // Tie check
-        let tie = (arr) => arr.every(v => v != null);
-        if (tie(g[0]) == true && tie(g[1]) == true && tie(g[2]) == true) {
-            message = `It's a tie!\n`;
-            document.getElementById("banner").innerHTML = message;
-            return console.log(message);
-        }
-
-        // Resume game
-        this.running = true;
+  display: function () {
+    for (i in this.board) {
+      console.log(this.board[i]);
     }
+    console.log("");
+  },
+
+  draw: function () {
+    for (y in this.board) {
+      for (x in this.board[y]) {
+        if (this.board[y][x] == 1) {
+          document.getElementById(`${y}-${x}`).classList.add("x");
+        } else if (this.board[y][x] == 2) {
+          document.getElementById(`${y}-${x}`).classList.add("o");
+        }
+      }
+    }
+  },
+
+  erase: function () {
+    for (y in this.board) {
+      for (x in this.board[y]) {
+          document.getElementById(`${y}-${x}`).classList.remove("x");
+          document.getElementById(`${y}-${x}`).classList.remove("o");
+      }
+    }
+  },
+
+  check: function (player) {
+    let g = this.board;
+    let message = "";
+
+    // Pause game
+    this.running = false;
+
+    // Diagonal check
+    if (
+      (g[0][0] == player && g[1][1] == player && g[2][2] == player) ||
+      (g[0][2] == player && g[1][1] == player && g[2][0] == player)
+    ) {
+      this.winner = player;
+      message = `Player ${player} wins!\n`;
+      document.getElementById("banner").innerHTML = message;
+      return console.log(message);
+    }
+
+    // Horizontal check
+    for (row in g) {
+      if (g[row][0] == player && g[row][1] == player && g[row][2] == player) {
+        this.winner = player;
+        message = `Player ${player} wins!\n`;
+        document.getElementById("banner").innerHTML = message;
+        return console.log(message);
+      }
+    }
+
+    // Vertical check
+    for (col in g) {
+      if (g[0][col] == player && g[1][col] == player && g[2][col] == player) {
+        this.winner = player;
+        message = `Player ${player} wins!\n`;
+        document.getElementById("banner").innerHTML = message;
+        return console.log(message);
+      }
+    }
+
+    // Tie check
+    let tie = (arr) => arr.every((v) => v != null);
+    if (tie(g[0]) == true && tie(g[1]) == true && tie(g[2]) == true) {
+      message = `It's a tie!\n`;
+      document.getElementById("banner").innerHTML = message;
+      return console.log(message);
+    }
+
+    // Resume game
+    this.running = true;
+  },
 };
+
+const reset = () => {
+    game.board = [
+      [null, null, null],
+      [null, null, null],
+      [null, null, null],
+    ];
+    game.running = true;
+    game.round = 1;
+    game.winner = undefined;
+
+    game.erase();
+}
 
 let randomMove = (player) => {
     let randomXY = () => {
