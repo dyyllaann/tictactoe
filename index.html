@@ -4,7 +4,15 @@
         <!-- <link rel="stylesheet" href="style.css"> -->
         <style>
             body {
-                margin: 0 auto;
+                font-family: Verdana, Geneva, Tahoma, sans-serif;
+            }
+
+            h1 {
+                padding-top: 10%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 20px;
             }
 
             #gameboard {
@@ -29,27 +37,31 @@
             .o {
                 background-image: url('./o.svg');
                 background-repeat: no-repeat;
-                background-size: 64px;
+                background-size: 75%;
+                background-position: center;
             }
         </style>
     </head>
     <body>
         <table id="gameboard">
             <tr id="row-1" class="row">
-                <th id="[0][0]" class="square" onclick="addX(this)"></th>
-                <th id="[0][1]" class="square" onclick="addX(this)"></th>
-                <th id="[0][2]" class="square" onclick="addX(this)"></th>
+                <th id="0-0" class="square" onclick="getUserInput(this)"></th>
+                <th id="0-1" class="square" onclick="getUserInput(this)"></th>
+                <th id="0-2" class="square" onclick="getUserInput(this)"></th>
             </tr>
             <tr id="row-2" class="row">
-                <th id="[1][0]" class="square" onclick="addX(this)"> </th>
-                <th id="[1][1]" class="square" onclick="addX(this)"> </th>
-                <th id="[1][2]" class="square" onclick="addX(this)"> </th>
+                <th id="1-0" class="square" onclick="getUserInput(this)"> </th>
+                <th id="1-1" class="square" onclick="getUserInput(this)"> </th>
+                <th id="1-2" class="square" onclick="getUserInput(this)"> </th>
             </tr>
             <tr id="row-3" class="row">
-                <th id="[2][0]" class="square" onclick="addX(this)"> </th>
-                <th id="[2][1]" class="square" onclick="addX(this)"> </th>
-                <th id="[2][2]" class="square" onclick="addX(this)"> </th>
+                <th id="2-0" class="square" onclick="getUserInput(this)"> </th>
+                <th id="2-1" class="square" onclick="getUserInput(this)"> </th>
+                <th id="2-2" class="square" onclick="getUserInput(this)"> </th>
             </tr>
+        </table>
+        <div>
+            <h1 id="banner"></h1>
         </div>
         <script src="app.js"></script>
     </body>
