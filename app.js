@@ -118,33 +118,34 @@ let test_ai = () => {
     }
 }
 
-let test_2 = () => {
-    // Round 1
-    console.log("ROUND 1");
-    // Player1.move(0, 0);
-    //   Player2.move(0, 1);
-    randomMove(1);
-    randomMove(0);
-    game.display();
-    check();
+let test_2 = (coordinates) => {
+    while (game.running == true) {
+        console.log(`ROUND ${game.round}`);
+        Player1.move(coordinates);
+        //   Player2.move(0, 1);
+        // randomMove(1);
+        randomMove(0);
+        game.display();
+        check();
 
-    // Round 2
-    console.log("ROUND 2");
-    // Player1.move(1, 1);
-    //   Player2.move(1, 2);
-    randomMove(1);
-    randomMove(0);
-    game.display();
-    check();
+        // // Round 2
+        // console.log("ROUND 2");
+        // // Player1.move(1, 1);
+        // //   Player2.move(1, 2);
+        // randomMove(1);
+        // randomMove(0);
+        // game.display();
+        // check();
 
-    // Round 3
-    console.log("ROUND 3");
-    // Player1.move(2, 2);
-    // Player2.move(0, 2);
-    randomMove(1);
-    randomMove(0);
-    game.display();
-    check();
+        // // Round 3
+        // console.log("ROUND 3");
+        // // Player1.move(2, 2);
+        // // Player2.move(0, 2);
+        // randomMove(1);
+        // randomMove(0);
+        // game.display();
+        // check();
+    }
 }
 
 const testCheck = {
@@ -198,3 +199,9 @@ const testCheck = {
 // testCheck.diagonal();
 // testCheck.tie();
 // test_ai();
+// test_2();
+
+const addX = (element) => {
+    element.classList.add("x");
+    console.log(`Coordinates: ${element.id}`);
+}

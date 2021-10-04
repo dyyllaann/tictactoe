@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- <link rel="stylesheet" href="style.css"> -->
+        <style>
+            body {
+                margin: 0 auto;
+            }
+
+            #gameboard {
+                padding-top: 20%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 200px;
+            }
+
+            .square {
+                padding: 32px;
+                border: 1px solid black;
+            }
+
+            .x {
+                background-image: url('./x.svg');
+                background-repeat: no-repeat;
+                background-size: 64px;
+            }
+
+            .o {
+                background-image: url('./o.svg');
+                background-repeat: no-repeat;
+                background-size: 64px;
+            }
+        </style>
+    </head>
+    <body>
+        <table id="gameboard">
+            <tr id="row-1" class="row">
+                <th id="[0][0]" class="square" onclick="addX(this)"></th>
+                <th id="[0][1]" class="square" onclick="addX(this)"></th>
+                <th id="[0][2]" class="square" onclick="addX(this)"></th>
+            </tr>
+            <tr id="row-2" class="row">
+                <th id="[1][0]" class="square" onclick="addX(this)"> </th>
+                <th id="[1][1]" class="square" onclick="addX(this)"> </th>
+                <th id="[1][2]" class="square" onclick="addX(this)"> </th>
+            </tr>
+            <tr id="row-3" class="row">
+                <th id="[2][0]" class="square" onclick="addX(this)"> </th>
+                <th id="[2][1]" class="square" onclick="addX(this)"> </th>
+                <th id="[2][2]" class="square" onclick="addX(this)"> </th>
+            </tr>
+        </div>
+        <script src="app.js"></script>
+    </body>
+</html>
