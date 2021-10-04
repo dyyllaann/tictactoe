@@ -13,7 +13,7 @@ const game = {
       console.log(this.board[i]);
     }
     console.log("");
-  },
+  },  
 
   draw: function () {
     for (y in this.board) {
@@ -34,6 +34,7 @@ const game = {
           document.getElementById(`${y}-${x}`).classList.remove("o");
       }
     }
+    document.getElementById(`banner`).innerHTML = "";
   },
 
   check: function (player) {
