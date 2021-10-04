@@ -13,6 +13,47 @@ const game = {
         console.log(this.board[i]);
       }
       console.log('');
+    },
+
+    check: function(player) {
+        let g = game.board;
+
+        // Pause game
+        game.running = false;
+
+        // Diagonal check
+        if (  
+            (g[0][0] == player && g[1][1] == player && g[2][2] == player) ||
+            (g[0][2] == player && g[1][1] == player && g[2][0] == player)
+        ) {
+            game.winner = player;
+            return console.log(`Player ${player} wins!\n`);
+        }
+
+        // Horizontal check
+        for (row in g) {
+            if (g[row][0] == player && g[row][1] == player && g[row][2] == player) {
+                game.winner = player;
+                return console.log(`Player ${player} wins!\n`);
+            }
+        }
+
+        // Vertical check
+        for (col in g) {
+        if (g[0][col] == player && g[1][col] == player && g[2][col] == player) {
+            game.winner = player;
+            return console.log(`Player ${player} wins!\n`);
+        }
+        }
+
+        // Tie check
+        let tie = (arr) => arr.every(v => v != null);
+        if (tie(g[0]) == true && tie(g[1]) == true && tie(g[2]) == true) {
+            return console.log(`It's a tie!\n`);
+        }
+
+        // Resume game
+        game.running = true;
     }
 };
 
@@ -32,47 +73,6 @@ let randomMove = (player) => {
             randomMove(player);
         }
     }
-}
-
-const check = (player) => {
-    let g = game.board;
-
-    // Pause game
-    game.running = false;
-
-    // Diagonal check
-    if (  
-        (g[0][0] == player && g[1][1] == player && g[2][2] == player) ||
-        (g[0][2] == player && g[1][1] == player && g[2][0] == player)
-    ) {
-        game.winner = player;
-        return console.log(`Player ${player} wins!\n`);
-    }
-
-    // Horizontal check
-    for (row in g) {
-        if (g[row][0] == player && g[row][1] == player && g[row][2] == player) {
-            game.winner = player;
-            return console.log(`Player ${player} wins!\n`);
-        }
-    }
-
-    // Vertical check
-    for (col in g) {
-      if (g[0][col] == player && g[1][col] == player && g[2][col] == player) {
-        game.winner = player;
-        return console.log(`Player ${player} wins!\n`);
-      }
-    }
-
-    // Tie check
-    let tie = (arr) => arr.every(v => v != null);
-    if (tie(g[0]) == true && tie(g[1]) == true && tie(g[2]) == true) {
-        return console.log(`It's a tie!\n`);
-    }
-
-    // Resume game
-    game.running = true;
 }
 
 const Player = (player) => {
@@ -156,7 +156,7 @@ const testCheck = {
         ]
         console.log(`HORIZONTAL CHECK:`)
         game.display();
-        check(1);
+        game.check(1);
     },
 
     vertical: function() {
@@ -167,7 +167,7 @@ const testCheck = {
         ]
         console.log(`VERTICAL CHECK:`)
         game.display();
-        check(1);
+        game.check(1);
     },
 
     diagonal: function() {
@@ -178,7 +178,7 @@ const testCheck = {
         ]
         console.log(`DIAGONAL CHECK:`)
         game.display();
-        check(1);
+        game.check(1);
     },
 
     tie: function() {
@@ -189,7 +189,7 @@ const testCheck = {
         ]
         console.log(`TIE CHECK:`)
         game.display();
-        check(1);
+        game.check(1);
     }
 }
 
@@ -197,4 +197,4 @@ const testCheck = {
 // testCheck.vertical();
 // testCheck.diagonal();
 // testCheck.tie();
-test_ai();
+// test_ai();
