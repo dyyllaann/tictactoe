@@ -2,6 +2,7 @@
 <html>
     <head>
         <!-- <link rel="stylesheet" href="style.css"> -->
+        <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
         <style>
             body {
                 font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -15,8 +16,30 @@
                 height: 20px;
             }
 
+            h2 {
+                font-family: 'Press Start 2P', cursive;
+                font-size: 64px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            ul {
+                margin: 0 auto;
+                padding: 0;
+            }
+
+            li {
+                font-family: 'Press Start 2P', cursive;
+                font-size: 16px;
+                width: 120px;
+                margin: 0 auto;
+                text-align: center;
+                display: inline-block;
+            }
+
             #controls {
-                padding-top: 15%;
+                padding-top: 5%;
                 display: flex;
                 justify-content: center;
                 align-items: center;
@@ -50,8 +73,14 @@
         </style>
     </head>
     <body>
+        <div id="header">
+            <h2>Tic Tac Toe</h2>
+        </div>
         <div id="controls">
-            <button onclick="reset()">Reset</button>
+            <ul id="control-btns">
+                <li onclick="reset()">Reset</li>
+                <!-- <li onclick="credits()">Credits</li> -->
+            </ul>
         </div>
         <table id="gameboard">
             <tr id="row-1" class="row">

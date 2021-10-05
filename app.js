@@ -1,3 +1,15 @@
+let sfxPlayer1 = new Audio(
+  "https://freesound.org/data/previews/388/388046_7284354-lq.mp3"
+);
+
+let sfxPlayer2 = new Audio(
+  "https://freesound.org/data/previews/388/388047_7284354-lq.mp3"
+);
+
+let sfxCredits = new Audio(
+  "https://freesound.org/data/previews/344/344696_6212127-lq.mp3"
+);
+
 const game = {
   board: [
     [null, null, null],
@@ -13,7 +25,7 @@ const game = {
       console.log(this.board[i]);
     }
     console.log("");
-  },  
+  },
 
   draw: function () {
     for (y in this.board) {
@@ -30,8 +42,8 @@ const game = {
   erase: function () {
     for (y in this.board) {
       for (x in this.board[y]) {
-          document.getElementById(`${y}-${x}`).classList.remove("x");
-          document.getElementById(`${y}-${x}`).classList.remove("o");
+        document.getElementById(`${y}-${x}`).classList.remove("x");
+        document.getElementById(`${y}-${x}`).classList.remove("o");
       }
     }
     document.getElementById(`banner`).innerHTML = "";
@@ -89,90 +101,89 @@ const game = {
 };
 
 const reset = () => {
-    game.board = [
-      [null, null, null],
-      [null, null, null],
-      [null, null, null],
-    ];
-    game.running = true;
-    game.round = 1;
-    game.winner = undefined;
+  game.board = [
+    [null, null, null],
+    [null, null, null],
+    [null, null, null],
+  ];
+  game.running = true;
+  game.round = 1;
+  game.winner = undefined;
 
-    game.erase();
-}
+  game.erase();
+};
 
 let randomMove = (player) => {
-    let randomXY = () => {
-      y = Math.floor(Math.random() * 3);
-      x = Math.floor(Math.random() * 3);
-      return y, x;
-    };
+  let randomXY = () => {
+    y = Math.floor(Math.random() * 3);
+    x = Math.floor(Math.random() * 3);
+    return y, x;
+  };
 
-    randomXY(); 
-    
-    if (game.board[y][x] == null) {
-        return game.board[y][x] = player;
-    } else {
-        if (game.running == true) {
-            randomMove(player);
-        }
+  randomXY();
+
+  if (game.board[y][x] == null) {
+    return (game.board[y][x] = player);
+  } else {
+    if (game.running == true) {
+      randomMove(player);
     }
-}
-
-let randomChoice = () => {
-    let randomXY = () => {
-      y = Math.floor(Math.random() * 3);
-      x = Math.floor(Math.random() * 3);
-      return y, x;
-    };
-
-    randomXY();
-
-    if (game.board[y][x] == null) {
-      return y,x;
-    } else {
-      if (game.running == true) {
-        randomChoice();
-      }
-    }    
-}
+  }
+};
 
 const Player = (player) => {
-    const move = (y, x) => {
-        if (game.running == true) {
-            console.log(`ROUND ${game.round}`);
+  const move = (y, x) => {
+    if (game.running == true) {
+      // console.log(`ROUND ${game.round}`);
 
-            if (game.board[y][x] == null) {
-                game.board[y][x] = player;
-                game.display();
-                game.draw();
-                game.check(1);
-            }
-        }
-
-        if (game.running == true) {
-            randomMove(2);
-            game.display();
-            game.draw();
-            game.check(2);
-        }
-
-        if (game.winner == undefined) {
-            game.round++;
-        }
+      if (game.board[y][x] == null) {
+        game.board[y][x] = player;
+        sfxPlayer1.play();
+        // game.display();
+        game.draw();
+        game.check(1);
+      }
     }
-    return { move };
-}
+
+    if (game.running == true) {
+      randomMove(2);
+      setTimeout(() => {
+        game.check(2);
+        sfxPlayer2.play();
+        // game.display();
+        game.draw();
+      }, 1000);
+    }
+
+    if (game.winner == undefined) {
+      game.round++;
+    }
+  };
+  return { move };
+};
 
 const Player1 = Player(1);
 const Player2 = Player(2);
 
 let test_ai = () => {
-    while (game.running == true) {
-      console.log(`ROUND ${game.round}`);
+  while (game.running == true) {
+    console.log(`ROUND ${game.round}`);
 
-      // Player 1 assigns value to board coordinates
-      randomMove(1);
+    // Player 1 assigns value to board coordinates
+    randomMove(1);
+
+    // Display results
+    game.display();
+
+    // Draw results
+    game.draw();
+
+    // Check for winner
+    game.check(1);
+
+    if (game.running == true) {
+      // Player 2 assigns value to board coordinates
+      randomMove(2);
 
       // Display results
       game.display();
@@ -181,73 +192,60 @@ let test_ai = () => {
       game.draw();
 
       // Check for winner
-      game.check(1);
-
-      if (game.running == true) {
-        // Player 2 assigns value to board coordinates
-        randomMove(2);
-
-        // Display results
-        game.display();
-        
-        // Draw results
-        game.draw();
-        
-        // Check for winner
-        game.check(2);
-      }
-
-      if (game.winner == undefined) {
-        game.round++;
-      }
+      game.check(2);
     }
-}
+
+    if (game.winner == undefined) {
+      game.round++;
+    }
+  }
+};
 
 const testCheck = {
-    horizontal: function() {
-        game.board = [
-            [1,0,1],
-            [0,null,1],
-            [1,1,1]            
-        ]
-        console.log(`HORIZONTAL CHECK:`)
-        game.display();
-        game.check(1);
-    },
+  horizontal: function () {
+    game.board = [
+      [1, 0, 1],
+      [0, null, 1],
+      [1, 1, 1],
+    ];
+    console.log(`HORIZONTAL CHECK:`);
+    game.display();
+    game.check(1);
+  },
 
-    vertical: function() {
-        game.board = [
-            [1,0,1],
-            [1,null,1],
-            [1,1,0]            
-        ]
-        console.log(`VERTICAL CHECK:`)
-        game.display();
-        game.check(1);
-    },
+  vertical: function () {
+    game.board = [
+      [1, 0, 1],
+      [1, null, 1],
+      [1, 1, 0],
+    ];
+    console.log(`VERTICAL CHECK:`);
+    game.display();
+    game.check(1);
+  },
 
-    diagonal: function() {
-        game.board = [
-            [1,0,1],
-            [0,1,1],
-            [1,0,0]            
-        ]
-        console.log(`DIAGONAL CHECK:`)
-        game.display();
-        game.check(1);
-    },
+  diagonal: function () {
+    game.board = [
+      [1, 0, 1],
+      [0, 1, 1],
+      [1, 0, 0],
+    ];
+    console.log(`DIAGONAL CHECK:`);
+    game.display();
+    game.check(1);
+  },
 
-    tie: function() {
-        game.board = [
-            [1,0,1],
-            [0,0,1],
-            [1,1,0]
-        ]
-        console.log(`TIE CHECK:`)
-        game.display();
-        game.check(1);
-    }
-}
+  tie: function () {
+    game.board = [
+      [1, 0, 1],
+      [0, 0, 1],
+      [1, 1, 0],
+    ];
+    console.log(`TIE CHECK:`);
+    game.display();
+    game.check(1);
+  },
+};
 
 // testCheck.horizontal();
 // testCheck.vertical();
@@ -257,9 +255,9 @@ const testCheck = {
 // console.log(randomChoice());
 
 let getUserInput = (element) => {
-    let coordinates = element.id.split("-");
-    let y = coordinates[0];
-    let x = coordinates[1];
+  let coordinates = element.id.split("-");
+  let y = coordinates[0];
+  let x = coordinates[1];
 
-    Player1.move(y,x);
-}
+  Player1.move(y, x);
+};
