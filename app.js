@@ -1,12 +1,12 @@
-let sfxPlayer1 = new Audio(
+const sfxPlayer1 = new Audio(
   "https://freesound.org/data/previews/388/388046_7284354-lq.mp3"
 );
 
-let sfxPlayer2 = new Audio(
+const sfxPlayer2 = new Audio(
   "https://freesound.org/data/previews/388/388047_7284354-lq.mp3"
 );
 
-let sfxCredits = new Audio(
+const sfxCredits = new Audio(
   "https://freesound.org/data/previews/344/344696_6212127-lq.mp3"
 );
 
@@ -113,7 +113,7 @@ const reset = () => {
   game.erase();
 };
 
-let randomMove = (player) => {
+const randomMove = (player) => {
   let randomXY = () => {
     y = Math.floor(Math.random() * 3);
     x = Math.floor(Math.random() * 3);
@@ -165,7 +165,7 @@ const Player = (player) => {
 const Player1 = Player(1);
 const Player2 = Player(2);
 
-let test_ai = () => {
+const test_ai = () => {
   while (game.running == true) {
     console.log(`ROUND ${game.round}`);
 
@@ -247,17 +247,53 @@ const testCheck = {
   },
 };
 
-// testCheck.horizontal();
-// testCheck.vertical();
-// testCheck.diagonal();
-// testCheck.tie();
-// test_ai();
-// console.log(randomChoice());
-
-let getUserInput = (element) => {
+const getUserInput = (element) => {
   let coordinates = element.id.split("-");
   let y = coordinates[0];
   let x = coordinates[1];
 
   Player1.move(y, x);
 };
+
+const credits = () => {
+  const gameboard = document.getElementById("gameboard");
+  const controls = document.getElementById("controls");
+  const credits = document.getElementById("credits");
+
+  const love = "love";
+
+  gameboard.style.display = "none";
+  controls.style.display = "none";
+  credits.style.display = "flex";
+
+  setTimeout(() => {
+    sfxCredits.play();
+    
+    for (var i in love) {
+      let time = i * 0200;
+      let letter = document.getElementById(love[i]);
+      setTimeout(() => {
+        letter.style.marginTop = "-5px";
+        letter.classList.add("love");
+
+        setTimeout(() => {
+          letter.style.removeProperty("margin-top");
+        }, 0300);
+      }, time);
+
+      setTimeout(() => {
+        letter.classList.remove("love");
+      }, 4000);
+    }
+  }, 0500);
+
+  setTimeout(() => {
+    credits.style.display = "none";
+    gameboard.style.display = "flex";
+    controls.style.display = "flex";
+  }, 5500);
+}
+
+const settings = () => {
+
+}

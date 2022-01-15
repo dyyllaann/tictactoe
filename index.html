@@ -32,6 +32,7 @@
             li {
                 font-family: 'Press Start 2P', cursive;
                 font-size: 16px;
+                cursor: pointer;
                 width: 120px;
                 margin: 0 auto;
                 text-align: center;
@@ -45,12 +46,39 @@
                 align-items: center;
             }
 
+            #credits {
+                font-size: 1.5rem;
+                padding-top: 5%;
+                display: none;
+                flex-wrap: wrap;
+                justify-content: center;
+                align-items: center;
+                height: 200px;
+            }
+
             #gameboard {
                 padding-top: 5%;
                 display: flex;
                 justify-content: center;
                 align-items: center;
                 height: 200px;
+            }
+
+            #l {
+                margin-left: 0.25em;
+            }
+
+            #e {
+                margin-right: 0.25em;
+            }
+
+            #l, #o, #v, #e {
+                transition: all 0.25s ease-out;
+            }
+
+            .love {
+                color: #f00;
+                transition: all 0.3s ease-in-out;
             }
 
             .square {
@@ -78,8 +106,9 @@
         </div>
         <div id="controls">
             <ul id="control-btns">
+                <li onclick="settings()">Settings</li>
                 <li onclick="reset()">Reset</li>
-                <!-- <li onclick="credits()">Credits</li> -->
+                <li onclick="credits()">Credits</li>
             </ul>
         </div>
         <table id="gameboard">
@@ -99,6 +128,15 @@
                 <th id="2-2" class="square" onclick="getUserInput(this)"> </th>
             </tr>
         </table>
+        <div id="credits">
+            <span>Made with</span>
+            <span id="l">l</span>
+            <span id="o">o</span>
+            <span id="v">v</span>
+            <span id="e">e</span>
+            <span>by Dylan Arveson.</span>
+            <a style="width: 100%; text-align: center;" href="https://github.com/dyyllaann" target="_blank" rel="noopener noreferrer">https://github.com/dyyllaann</a>
+        </div>
         <div>
             <h1 id="banner"></h1>
         </div>
