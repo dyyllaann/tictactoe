@@ -47,11 +47,32 @@ const game = {
       }
     }
     document.getElementById(`banner`).innerHTML = "";
+    document.getElementById(`reset-btn`).style.display = "none";
+  },
+
+  reset: function () {
+    game.board = [
+      [null, null, null],
+      [null, null, null],
+      [null, null, null],
+    ];
+    game.running = true;
+    game.round = 1;
+    game.winner = undefined;
+
+    game.erase();
+  },
+
+  settings: {
+    '1p': true,
+    'totalRounds': null,
+    'sfx': true
   },
 
   check: function (player) {
     let g = this.board;
     let message = "";
+    let gameOver = false;
 
     // Pause game
     this.running = false;
@@ -64,7 +85,8 @@ const game = {
       this.winner = player;
       message = `Player ${player} wins!\n`;
       document.getElementById("banner").innerHTML = message;
-      return console.log(message);
+      document.getElementById(`reset-btn`).style.display = "block";
+      return gameOver = true;
     }
 
     // Horizontal check
@@ -73,7 +95,8 @@ const game = {
         this.winner = player;
         message = `Player ${player} wins!\n`;
         document.getElementById("banner").innerHTML = message;
-        return console.log(message);
+        document.getElementById(`reset-btn`).style.display = "block";
+        return (gameOver = true);
       }
     }
 
@@ -83,7 +106,8 @@ const game = {
         this.winner = player;
         message = `Player ${player} wins!\n`;
         document.getElementById("banner").innerHTML = message;
-        return console.log(message);
+        document.getElementById(`reset-btn`).style.display = "block";
+        return (gameOver = true);
       }
     }
 
@@ -92,25 +116,15 @@ const game = {
     if (tie(g[0]) == true && tie(g[1]) == true && tie(g[2]) == true) {
       message = `It's a tie!\n`;
       document.getElementById("banner").innerHTML = message;
-      return console.log(message);
+      document.getElementById(`reset-btn`).style.display = "block";
+      return (gameOver = true);
     }
 
     // Resume game
-    this.running = true;
+    if (gameOver === false) {
+      this.running = true;
+    }
   },
-};
-
-const reset = () => {
-  game.board = [
-    [null, null, null],
-    [null, null, null],
-    [null, null, null],
-  ];
-  game.running = true;
-  game.round = 1;
-  game.winner = undefined;
-
-  game.erase();
 };
 
 const randomMove = (player) => {
@@ -134,12 +148,9 @@ const randomMove = (player) => {
 const Player = (player) => {
   const move = (y, x) => {
     if (game.running == true) {
-      // console.log(`ROUND ${game.round}`);
-
       if (game.board[y][x] == null) {
         game.board[y][x] = player;
         sfxPlayer1.play();
-        // game.display();
         game.draw();
         game.check(1);
       }
@@ -150,7 +161,6 @@ const Player = (player) => {
       setTimeout(() => {
         game.check(2);
         sfxPlayer2.play();
-        // game.display();
         game.draw();
       }, 1000);
     }
@@ -292,8 +302,4 @@ const credits = () => {
     gameboard.style.display = "flex";
     controls.style.display = "flex";
   }, 5500);
-}
-
-const settings = () => {
-
 }
